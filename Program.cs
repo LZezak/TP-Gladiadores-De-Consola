@@ -34,29 +34,39 @@ namespace ConsoleApplication1
         static int ElegirModalidad(int modalidad)
         {
             Console.Write("Eliga entre las modalidades |1v1|, |2v2|, |3v3| y |5v5| - usando los numeros 1, 2, 3 y 5: ");
-            modalidad = Convert.ToInt32(Console.ReadLine());
+            string modalida;
             while (true)
-            { 
-                if (modalidad == 1)
+            {
+                modalida = Console.ReadLine();
+                if (modalida == "1")
                 {
                     Console.WriteLine("Se a elegido la modalidad Uno Contra Uno");
+              
                     return 1;
                 }
-                if (modalidad == 2)
+                if (modalida == "2")
                 {
                     Console.WriteLine("Se a elegido la modalidad Dos Contra Dos");
+              
                     return 2;
                 }
-                if (modalidad == 3)
+                if (modalida == "3")
                 {
                     Console.WriteLine("Se a elegido la modalidad Tres Contra Tres");
+               
                     return 3;
                 }
-                if (modalidad == 5)
+                if (modalida == "5")
                 {
                     Console.WriteLine("Se a elegido la modalidad Cinco Contra Cinco");
+                   
                     return 5;
                 }
+               
+                    Console.WriteLine("Numero invalido, seleccione uno de los numeros mencionados");
+                
+
+          
             }
         }
     }
