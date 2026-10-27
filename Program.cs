@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -33,41 +33,41 @@ namespace ConsoleApplication1
         }
         static int ElegirModalidad(int modalidad)
         {
-            Console.Write("Eliga entre las modalidades |1v1|, |2v2|, |3v3| y |5v5| - usando los numeros 1, 2, 3 y 5: ");
-            string modalida;
+
+            
+            Console.WriteLine("================ JUEGO ================");
+            Console.WriteLine();
+            Console.WriteLine("Eliga entre las modalidad que desea jugar |1v1|, |2v2|, |3v3| y |5v5| ");          
             while (true)
             {
-                modalida = Console.ReadLine();
-                if (modalida == "1")
+                string texto;
+                Console.Write("Elegí la modalidad (1, 2, 3 o 5): ");
+                texto = Console.ReadLine();
+
+                if (texto == "1")
                 {
-                    Console.WriteLine("Se a elegido la modalidad Uno Contra Uno");
-              
+                    Console.WriteLine("Se ha elegido la modalidad Uno Contra Uno");
                     return 1;
                 }
-                if (modalida == "2")
+                if (texto == "2")
                 {
-                    Console.WriteLine("Se a elegido la modalidad Dos Contra Dos");
-              
+                    Console.WriteLine("Se ha elegido la modalidad Dos Contra Dos");
                     return 2;
                 }
-                if (modalida == "3")
+                if (texto == "3")
                 {
-                    Console.WriteLine("Se a elegido la modalidad Tres Contra Tres");
-               
+                    Console.WriteLine("Se ha elegido la modalidad Tres Contra Tres");
                     return 3;
                 }
-                if (modalida == "5")
+                if (texto == "5")
                 {
-                    Console.WriteLine("Se a elegido la modalidad Cinco Contra Cinco");
-                   
+                    Console.WriteLine("Se ha elegido la modalidad Cinco Contra Cinco");
                     return 5;
                 }
-               
-                    Console.WriteLine("Numero invalido, seleccione uno de los numeros mencionados");
-                
 
-          
+                Console.WriteLine("Modalidad inválida. Solo se acepta 1, 2, 3 o 5");
+                Console.WriteLine();
             }
         }
     }
-}
+    }
