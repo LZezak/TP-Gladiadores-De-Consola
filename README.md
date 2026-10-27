@@ -18,4 +18,5 @@ leo se encargo de establecer los datos y constantes
 pablo se esta encargando de crear las funciones para pedir los nombres, vida, ataque y defensa
 dante se esta encargando en crear la función para pedir la modalidad de juego
 
-funciones que vamos usar:-
+funciones que vamos usar:
+elegitmodalidad();
