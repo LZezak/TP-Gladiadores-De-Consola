@@ -23,4 +23,5 @@ dante se esta encargando en crear la función para pedir la modalidad de juego
 
 la base de codigo que vamos usar va a ser la de leo(program.cs) a eso le vamor a ir agregando los trabajos.
 dante modifico su codigo para q no falle si hay otro error
+gonza modifico el codigo de dante para dar estetica y variables
 
