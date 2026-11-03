@@ -27,3 +27,5 @@ gonza modifico el codigo de dante para dar estetica y variables
 
 3/11/2026
 las funciones para elegir elegir las estadísticas no funcionaba bien, leo las modifico y lo reemplazo en el código principal
+leo termino subiendo la parte de codigo cone anda bien cuando pide los datos 
+pablo mejoro el codigo de dante para que sea mas corto, devuelven los mimos vaqlores
