@@ -12,7 +12,7 @@ namespace ConsoleApplication1
         {
             int Modalidad = 0;
             int CantJugadores = 0;
-            ElegirModalidad(Modalidad);
+            Modalidad = ElegirModalidad(Modalidad);
             CantJugadores = Modalidad * 2;
             const int PuntosTotales = 40;
             const int VidaMin = 10;
