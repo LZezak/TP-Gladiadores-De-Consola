@@ -25,3 +25,5 @@ la base de codigo que vamos usar va a ser la de leo(program.cs) a eso le vamor a
 dante modifico su codigo para q no falle si hay otro error
 gonza modifico el codigo de dante para dar estetica y variables
 
+3/11/2026
+las funciones para elegir elegir las estadísticas no funcionaba bien, leo las modifico y lo reemplazo en el código principal
