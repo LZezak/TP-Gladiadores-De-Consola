@@ -29,6 +29,9 @@ namespace ConsoleApplication1
             int[] Defensa = new int[CantJugadores];
             int[] DañoAcumulado = new int[CantJugadores];
             int[] RecuperacionesUsadas = new int[CantJugadores];
+            AsignarSalud(Vida, CantJugadores);
+            AsignarAtaque(Ataque, CantJugadores);
+            AsignarDefensa(Defensa, CantJugadores);
         }
         static int ElegirModalidad(int modalidad)
         {    
