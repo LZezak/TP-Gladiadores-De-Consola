@@ -66,7 +66,7 @@ namespace ConsoleApplication1
                 Console.WriteLine();
             }
         }
-        static int AsignarSalud(int[] Health, int CantPlayer)
+        static int[] AsignarSalud(int[] Health, int CantPlayer)
         {
             int d = 1;
             Console.WriteLine("Jugador 1:");
@@ -84,9 +84,9 @@ namespace ConsoleApplication1
                 Health[i] = int.Parse(Console.ReadLine());
                 d++;
             }
-            return Health[];
+            return Health;
         }
-        static int AsignarAtaque(int[] Atack, int CantPlayer)
+        static int[] AsignarAtaque(int[] Atack, int CantPlayer)
         {
             int d = 1;
             Console.WriteLine("Jugador 1:");
@@ -104,9 +104,9 @@ namespace ConsoleApplication1
                 Atack[i] = int.Parse(Console.ReadLine());
                 d++;
             }
-            return Atack[];
+            return Atack;
         }
-        static int AsignarDefensa(int[] Defense, int CantPlayer)
+        static int[] AsignarDefensa(int[] Defense, int CantPlayer)
         {
             int d = 1;
             Console.WriteLine("Jugador 1:");
@@ -124,7 +124,7 @@ namespace ConsoleApplication1
                 Defense[i] = int.Parse(Console.ReadLine());
                 d++;
             }
-            return Defense[];
+            return Defense;
         }
     }
     }
