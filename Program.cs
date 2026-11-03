@@ -74,6 +74,12 @@ namespace ConsoleApplication1
             {
                 Console.Write("Salud Gladiador " + d + " (min. 10 - max. 25): ");
                 Health[i] = int.Parse(Console.ReadLine());
+                if (Health[i] < 10 || Health[i] > 25)
+                {
+                    Console.WriteLine("Valor invalido. Intente de nuevo");
+                    i--;
+                    d--;
+                }
                 d++;
             }
             d = 1;
@@ -82,6 +88,12 @@ namespace ConsoleApplication1
             {
                 Console.Write("Salud Gladiador " + d + " (min. 10 - max. 25): ");
                 Health[i] = int.Parse(Console.ReadLine());
+                if (Health[i] < 10 || Health[i] > 25)
+                {
+                    Console.WriteLine("Valor invalido. Intente de nuevo");
+                    i--;
+                    d--;
+                }
                 d++;
             }
             return Health;
@@ -94,6 +106,12 @@ namespace ConsoleApplication1
             {
                 Console.Write("Ataque Gladiador " + d + " (min. 5 - max. 20): ");
                 Atack[i] = int.Parse(Console.ReadLine());
+                if (Atack[i] < 5 || Atack[i] > 20)
+                {
+                    Console.WriteLine("Valor invalido. Intente de nuevo");
+                    i--;
+                    d--;
+                }
                 d++;
             }
             d = 1;
@@ -102,6 +120,12 @@ namespace ConsoleApplication1
             {
                 Console.Write("Ataque Gladiador " + d + " (min. 5 - max. 20): ");
                 Atack[i] = int.Parse(Console.ReadLine());
+                if (Atack[i] < 5 || Atack[i] > 20)
+                {
+                    Console.WriteLine("Valor invalido. Intente de nuevo");
+                    i--;
+                    d--;
+                }
                 d++;
             }
             return Atack;
@@ -114,6 +138,12 @@ namespace ConsoleApplication1
             {
                 Console.Write("Defensa Gladiador " + d + " (min. 1 - max. 10): ");
                 Defense[i] = int.Parse(Console.ReadLine());
+                if (Defense[i] < 1 || Defense[i] > 10)
+                {
+                    Console.WriteLine("Valor invalido. Intente de nuevo");
+                    i--;
+                    d--;
+                }
                 d++;
             }
             d = 1;
@@ -122,6 +152,12 @@ namespace ConsoleApplication1
             {
                 Console.Write("Defensa Gladiador " + d + " (min. 1 - max. 10): ");
                 Defense[i] = int.Parse(Console.ReadLine());
+                if (Defense[i] < 1 || Defense[i] > 10)
+                {
+                    Console.WriteLine("Valor invalido. Intente de nuevo");
+                    i--;
+                    d--;
+                }
                 d++;
             }
             return Defense;
