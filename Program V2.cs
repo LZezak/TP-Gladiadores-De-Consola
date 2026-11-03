@@ -66,7 +66,7 @@ namespace ConsoleApplication1
         }
         static int ElegirModalidad(int modalidad)
         {
-            Console.WriteLine("================ JUEGO ================");
+           Console.WriteLine("================ JUEGO ================");
             Console.WriteLine();
             Console.WriteLine("Eliga entre las modalidad que desea jugar |1v1|, |2v2|, |3v3| y |5v5| ");
             while (true)
@@ -75,26 +75,11 @@ namespace ConsoleApplication1
                 Console.Write("Elegí la modalidad (1, 2, 3 o 5): ");
                 texto = Console.ReadLine();
 
-                if (texto == "1")
+                if (texto ==  "1" || texto == "2" || texto == "3" || texto == "5")
                 {
-                    Console.WriteLine("Se ha elegido la modalidad Uno Contra Uno");
-                    return 1;
-                }
-                if (texto == "2")
-                {
-                    Console.WriteLine("Se ha elegido la modalidad Dos Contra Dos");
-                    return 2;
-                }
-                if (texto == "3")
-                {
-                    Console.WriteLine("Se ha elegido la modalidad Tres Contra Tres");
-                    return 3;
-                }
-                if (texto == "5")
-                {
-                    Console.WriteLine("Se ha elegido la modalidad Cinco Contra Cinco");
-                    return 5;
-                }
+                    Console.WriteLine("Se ha elegido la modalidad " + texto + " contra " + texto);
+                    return int.Parse(texto);
+                }       
 
                 Console.WriteLine("Modalidad inválida. Solo se acepta 1, 2, 3 o 5");
                 Console.WriteLine();
