@@ -76,7 +76,7 @@ namespace ConsoleApplication1
                 Health[i] = int.Parse(Console.ReadLine());
                 d++;
             }
-            d = (CantPlayer / 2);
+            d = 1;
             Console.WriteLine("Jugador 2:");
             for (int i = (CantPlayer / 2); i <= (CantPlayer - 1); i++)
             {
@@ -96,7 +96,7 @@ namespace ConsoleApplication1
                 Atack[i] = int.Parse(Console.ReadLine());
                 d++;
             }
-            d = (CantPlayer / 2);
+            d = 1;
             Console.WriteLine("Jugador 2:");
             for (int i = (CantPlayer / 2); i <= (CantPlayer - 1); i++)
             {
@@ -116,7 +116,7 @@ namespace ConsoleApplication1
                 Defense[i] = int.Parse(Console.ReadLine());
                 d++;
             }
-            d = (CantPlayer / 2);
+            d = 1;
             Console.WriteLine("Jugador 2:");
             for (int i = (CantPlayer / 2); i <= (CantPlayer - 1); i++)
             {
