@@ -78,7 +78,7 @@ namespace ConsoleApplication1
             }
             d = (CantPlayer / 2);
             Console.WriteLine("Jugador 2:");
-            for (int i = ((CantPlayer / 2) - 1); i <= (CantPlayer - 1); i++)
+            for (int i = (CantPlayer / 2); i <= (CantPlayer - 1); i++)
             {
                 Console.Write("Salud Gladiador " + d + " (min. 10 - max. 25): ");
                 Health[i] = int.Parse(Console.ReadLine());
@@ -98,7 +98,7 @@ namespace ConsoleApplication1
             }
             d = (CantPlayer / 2);
             Console.WriteLine("Jugador 2:");
-            for (int i = ((CantPlayer / 2) - 1); i <= (CantPlayer - 1); i++)
+            for (int i = (CantPlayer / 2); i <= (CantPlayer - 1); i++)
             {
                 Console.Write("Ataque Gladiador " + d + " (min. 5 - max. 20): ");
                 Atack[i] = int.Parse(Console.ReadLine());
@@ -118,7 +118,7 @@ namespace ConsoleApplication1
             }
             d = (CantPlayer / 2);
             Console.WriteLine("Jugador 2:");
-            for (int i = ((CantPlayer / 2) - 1); i <= (CantPlayer - 1); i++)
+            for (int i = (CantPlayer / 2); i <= (CantPlayer - 1); i++)
             {
                 Console.Write("Defensa Gladiador " + d + " (min. 1 - max. 10): ");
                 Defense[i] = int.Parse(Console.ReadLine());
