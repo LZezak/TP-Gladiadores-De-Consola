@@ -29,3 +29,6 @@ gonza modifico el codigo de dante para dar estetica y variables
 las funciones para elegir elegir las estadísticas no funcionaba bien, leo las modifico y lo reemplazo en el código principal
 leo termino subiendo la parte de codigo cone anda bien cuando pide los datos 
 pablo mejoro el codigo de dante para que sea mas corto, devuelven los mimos vaqlores
+leo cambio el programa en general, las comprobaciones de las cualidades de los personajes para que sumen 40
+empezo a usar las constantes para los valores literales 
+se corrigieron detalles menores
