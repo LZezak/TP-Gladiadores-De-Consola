@@ -32,3 +32,4 @@ pablo mejoro el codigo de dante para que sea mas corto, devuelven los mimos vaql
 leo cambio el programa en general, las comprobaciones de las cualidades de los personajes para que sumen 40
 empezo a usar las constantes para los valores literales 
 se corrigieron detalles menores
+juan subio su codigo para calcular el ataque
