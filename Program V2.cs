@@ -240,7 +240,7 @@ namespace ConsoleApplication1
                 }
             }
         }
-        static int AsignarSaludOtraVez(int Health, int i, string[] GladiNameHealtAgain)
+        static int AsignarSaludOtraVez(int Health, int i, string[] GladiNameHealtAgain, int MaxHealthAgain, int MinHealthAgain)
         {
             bool Correcto;
             do
@@ -248,7 +248,7 @@ namespace ConsoleApplication1
                 Correcto = true;
                 Console.Write("Salud gladiador ¨" + GladiNameHealtAgain[i] + "¨ (min. 10 - max. 25): ");
                 Health = int.Parse(Console.ReadLine());
-                if (Health < 10 || Health > 25)
+                if (Health < MinHealthAgain || Health > MaxHealthAgain)
                 {
                     Console.WriteLine("Valor invalido. Intente de nuevo");
                     Correcto = false;
@@ -257,7 +257,7 @@ namespace ConsoleApplication1
             while (Correcto == false);
             return Health;
         }
-        static int AsignarAtaqueOtraVez(int Atack, int i, string[] GladiNameAtackAgain)
+        static int AsignarAtaqueOtraVez(int Atack, int i, string[] GladiNameAtackAgain, int MaxAtackAgain, int MinAtackAgain)
         {
             bool Correcto;
             do
@@ -265,7 +265,7 @@ namespace ConsoleApplication1
                 Correcto = true;
                 Console.Write("Ataque gladiador ¨" + GladiNameAtackAgain[i] + "¨ (min. 5 - max. 20): ");
                 Atack = int.Parse(Console.ReadLine());
-                if (Atack < 5 || Atack > 20)
+                if (Atack < MinAtackAgain || Atack > MaxAtackAgain)
                 {
                     Console.WriteLine("Valor invalido. Intente de nuevo");
                     Correcto = false;
@@ -274,7 +274,7 @@ namespace ConsoleApplication1
             while (Correcto == false);
             return Atack;
         }
-        static int AsignarDefensaOtraVez(int Defense, int i, string[] GladiNameDefenseAgain)
+        static int AsignarDefensaOtraVez(int Defense, int i, string[] GladiNameDefenseAgain, int MaxDefenseAgain, int MinDefenseAgain)
         {
             bool Correcto;
             do
@@ -282,7 +282,7 @@ namespace ConsoleApplication1
                 Correcto = true;
                 Console.Write("Defensa Gladiador ¨" + GladiNameDefenseAgain[i] + "¨ (min. 1 - max. 10): ");
                 Defense = int.Parse(Console.ReadLine());
-                if (Defense < 1 || Defense > 10)
+                if (Defense < MinDefenseAgain || Defense > MaxDefenseAgain)
                 {
                     Console.WriteLine("Valor invalido. Intente de nuevo");
                     Correcto = false;
