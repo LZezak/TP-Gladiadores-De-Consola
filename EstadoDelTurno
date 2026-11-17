@@ -24,12 +24,12 @@ namespace ConsoleApplication1
             Console.WriteLine("--- " + Equipo1 + " ---");
             for (int i = 0; i < Modalidad; i++)
             {
-                Console.WriteLine(NombresGladiadores[i] + ": " + Vida[i] + " HP");
+                Console.WriteLine(NombresGladiadores[i] + ": " + Vida[i] +"/"+ VidaMaxima[i] + " HP");
             }
             Console.WriteLine("--- " + Equipo2 + " ---");
             for (int i = 0; i < Modalidad; i++)
             {
-                Console.WriteLine(NombresGladiadores[i] + ": " + Vida[i] + " HP");
+                Console.WriteLine(NombresGladiadores[i] + ": " + Vida[i] +"/"+ VidaMaxima[i] + " HP");
             }
         }
     }
