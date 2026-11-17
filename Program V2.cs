@@ -291,5 +291,30 @@ namespace ConsoleApplication1
             while (Correcto == false);
             return Defense;
         }
+        static bool Recuperarse(int[] Vida, int[] VidaMaxima, int[] RecuperacionesUsadas, string[] NombresGladiadores, int indice, int MaxRecuperaciones, int PuntosCuracion)
+        {
+            if (RecuperacionesUsadas[indice] >= MaxRecuperaciones)
+            {
+                Console.WriteLine("El gladiador " + NombresGladiadores[indice] + " no tiene más curaciones disponibles. Elegí otra acción.");
+                return false;
+            }
+
+            if (Vida[indice] == VidaMaxima[indice])
+            {
+                Console.WriteLine("El gladiador " + NombresGladiadores[indice] + " tiene su vida al máximo. Elegí otra acción.");
+                return false;
+            }
+
+            RecuperacionesUsadas[indice]++;
+            Vida[indice] = Vida[indice] + PuntosCuracion;
+
+            if (Vida[indice] > VidaMaxima[indice])
+            {
+                Vida[indice] = VidaMaxima[indice];
+            }
+
+            Console.WriteLine(NombresGladiadores[indice] + " se recupera y queda con " + Vida[indice] + "/" + VidaMaxima[indice] + " de vida.");
+            return true;
+        }
     }
 }
