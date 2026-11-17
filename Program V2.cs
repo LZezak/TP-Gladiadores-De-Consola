@@ -260,6 +260,43 @@ namespace ConsoleApplication1
                 }
             }
         }
+          static int SeleccionarMovimiento(string nombreGladiador, int recuperacionesUsadas, int MaxRecuperaciones )
+        {
+            Console.WriteLine("================ ELIJA SU MOVIMIENTO ================");
+            Console.WriteLine();
+            Console.WriteLine("que desea hacer ATACAR(1) o CURARSE(2) ");
+
+            while (true)
+            {
+                Console.Write("Elegí una opción (1 o 2): ");
+                string texto = Console.ReadLine();
+
+                if (texto == "1")
+                {
+                    Console.WriteLine(nombreGladiador + " se prepara para atacar.");
+                    return 1;
+                }
+                else if (texto == "2")
+                {
+                    if (recuperacionesUsadas < MaxRecuperaciones)
+                    {
+                        Console.WriteLine(nombreGladiador + " decide recuperar salud.");
+                        return 2;
+                    }
+                    else
+                    {
+                        Console.WriteLine("Ya no te quedan recuperaciones disponibles. Debés atacar.");
+                        Console.WriteLine(" ");
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("Opción inválida. Solo se acepta 1 o 2.");
+                    Console.WriteLine(" ");
+                }
+
+            }
+        }
         static int AsignarSaludOtraVez(int Health, int i, string[] GladiNameHealtAgain, int MaxHealthAgain, int MinHealthAgain)
         {
             bool Correcto;
