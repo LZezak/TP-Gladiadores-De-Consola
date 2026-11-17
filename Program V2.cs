@@ -316,5 +316,16 @@ namespace ConsoleApplication1
             Console.WriteLine(NombresGladiadores[indice] + " se recupera y queda con " + Vida[indice] + "/" + VidaMaxima[indice] + " de vida.");
             return true;
         }
+        static bool EquipoDerrotado(int[] VidaGladiadores, int inicio, int fin)
+        {
+            for (int i = inicio; i < fin; i++)
+            {
+                if (VidaGladiadores[i] > 0)
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
     }
 }
