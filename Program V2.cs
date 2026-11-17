@@ -45,7 +45,7 @@ namespace ConsoleApplication1
             {
                 int SumaAtributos = Vida[i] + Ataque[i] + Defensa[i];
                 string Jugador;
-                if (SumaAtributos != 40)
+                if (SumaAtributos != PuntosTotales)
                 {
                     if ((i + 1) <= (CantJugadores / 2))
                     {
@@ -58,18 +58,18 @@ namespace ConsoleApplication1
                     int GladiadorNum = (i % (CantJugadores / 2)) + 1;
                     Console.WriteLine(" ");
                     Console.WriteLine("Distribución de atributos del gladiador ¨" + NombresGladiadores[i] + "¨ de " + Jugador + " invalida");
-                    if (SumaAtributos > 40)
+                    if (SumaAtributos > PuntosTotales)
                     {
                         Console.WriteLine("Se pasa por " + (SumaAtributos - PuntosTotales) + " puntos");
                     }
-                    if (SumaAtributos < 40)
+                    if (SumaAtributos < PuntosTotales)
                     {
                         Console.WriteLine("Le faltan " + (PuntosTotales - SumaAtributos) + " puntos");
                     }
                     Console.WriteLine(" ");
-                    Vida[i] = AsignarSaludOtraVez(Vida[i], i, NombresGladiadores);
-                    Ataque[i] = AsignarAtaqueOtraVez(Ataque[i], i, NombresGladiadores);
-                    Defensa[i] = AsignarDefensaOtraVez(Defensa[i], i, NombresGladiadores);
+                    Vida[i] = AsignarSaludOtraVez(Vida[i], i, NombresGladiadores, VidaMaxCons, VidaMin);
+                    Ataque[i] = AsignarAtaqueOtraVez(Ataque[i], i, NombresGladiadores, AtaqueMax, AtaqueMin);
+                    Defensa[i] = AsignarDefensaOtraVez(Defensa[i], i, NombresGladiadores, DefensaMax, DefensaMin);
                     i--;
                 }
             }
