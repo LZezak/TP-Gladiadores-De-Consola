@@ -33,7 +33,7 @@ namespace ConsoleApplication1
             int[] RecuperacionesUsadas = new int[CantJugadores];
             string[] NombresGladiadores = new string[CantJugadores]; 
             string [] MVP = new string[CantJugadores];
-            int CantTurnos = 0;
+            int Turno = 1;
 
             string Equipo1 = AsignarNombreEquipo(1);
             string Equipo2 = AsignarNombreEquipo(2);
@@ -76,7 +76,7 @@ namespace ConsoleApplication1
                 }
             }
             CantidadVidaMaxJugadores = Vida;
-            EstadoDelTurno(Modalidad, NombresGladiadores, Vida, Equipo1, Equipo2, turno);
+            EstadoDelTurno(Modalidad, NombresGladiadores, Vida, Equipo1, Equipo2, Turno);
      
         }
 
