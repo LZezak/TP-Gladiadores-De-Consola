@@ -27,6 +27,7 @@ namespace ConsoleApplication1
 
             string[] Nombre = new string[CantJugadores];
             int[] Vida = new int[CantJugadores];
+            int[] CantidadVidaMaxJugadores = new int[CantJugadores];
             int[] Ataque = new int[CantJugadores];
             int[] Defensa = new int[CantJugadores];
             int[] DañoAcumulado = new int[CantJugadores];
@@ -73,6 +74,7 @@ namespace ConsoleApplication1
                     i--;
                 }
             }
+            CantidadVidaMaxJugadores = Vida;
         }
         static int ElegirModalidad(int modalidad)
         {
