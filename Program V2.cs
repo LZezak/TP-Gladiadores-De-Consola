@@ -32,6 +32,8 @@ namespace ConsoleApplication1
             int[] DañoAcumulado = new int[CantJugadores];
             int[] RecuperacionesUsadas = new int[CantJugadores];
             string[] NombresGladiadores = new string[CantJugadores]; 
+            string [] MVP = new string[CantJugadores];
+            int CantTurnos = 0;
 
             string Equipo1 = AsignarNombreEquipo(1);
             string Equipo2 = AsignarNombreEquipo(2);
