@@ -36,3 +36,4 @@ juan subio su codigo para calcular el ataque
 
 17/11/2026
 Se trabajaron las funciones que faltaban hacer, restando por terminar solo el bucle de turnos, el promedio de vida del final, la tabla de ganadores, el anuncio del ganador y el selector de acción entre atacar y recuperarse.
+Además, Leo corrigió unos errores y emprolijo el codigo.
