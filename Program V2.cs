@@ -74,7 +74,25 @@ namespace ConsoleApplication1
                 }
             }
             CantidadVidaMaxJugadores = Vida;
+            EstadoDelTurno(Modalidad, NombresGladiadores, Vida, Equipo1, Equipo2, turno);
+     
         }
+
+        static void EstadoDelTurno(int Modalidad, string[] NombresGladiadores, int[] Vida, string Equipo1, string Equipo2, int turno)
+        {
+            Console.WriteLine("----- [Comienzo del Turno " + turno + "] -----");
+            Console.WriteLine("--- " + Equipo1 + " ---");
+            for (int i = 0; i < Modalidad; i++)
+            {
+                Console.WriteLine(NombresGladiadores[i] + ": " + Vida[i] + " HP");
+            }
+            Console.WriteLine("--- " + Equipo2 + " ---");
+            for (int i = 0; i < Modalidad; i++)
+            {
+                Console.WriteLine(NombresGladiadores[i] + ": " + Vida[i] + " HP");
+            }
+        }
+        
         static int ElegirModalidad(int modalidad)
         {
             Console.WriteLine("================ JUEGO ================");
