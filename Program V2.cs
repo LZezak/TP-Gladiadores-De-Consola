@@ -327,5 +327,37 @@ namespace ConsoleApplication1
             }
             return true;
         }
+                static int ObtenerDañoMaximo(int[] AcumulatedDamage, int CantidadJugadores)
+        {
+            int MaxDaño = AcumulatedDamage[0];
+            for (int i = 1; i < CantidadJugadores; i++)
+            {
+                if (AcumulatedDamage[i] > MaxDaño)
+                {
+                    MaxDaño = AcumulatedDamage[i];
+                }
+            }
+            return MaxDaño;
+        }
+
+        static void MostrarMVP(string[] NombresGladiadores, int[] AcumulatedDamage, int CantidadJugadores)
+        {
+            int MaxDaño = ObtenerDañoMaximo(AcumulatedDamage, CantidadJugadores);
+            Console.Write("MVP del torneo (" + MaxDaño + " de daño causado): ");
+            bool EsElPrimero = true;
+            for (int i = 0; i < CantidadJugadores; i++)
+            {
+                if (AcumulatedDamage[i] == MaxDaño)
+                {
+                    if (EsElPrimero == false)
+                    {
+                        Console.Write(", ");
+                    }
+                    Console.Write(NombresGladiadores[i]);
+                    EsElPrimero = false;
+                }
+            }
+            Console.WriteLine();
+        }
     }
 }
