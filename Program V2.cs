@@ -25,7 +25,6 @@ namespace ConsoleApplication1
             Modalidad = ElegirModalidad(Modalidad);
             CantJugadores = Modalidad * 2;
 
-            string[] Nombre = new string[CantJugadores];
             int[] Vida = new int[CantJugadores];
             int[] CantidadVidaMaxJugadores = new int[CantJugadores];
             int[] Ataque = new int[CantJugadores];
