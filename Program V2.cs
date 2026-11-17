@@ -347,7 +347,7 @@ namespace ConsoleApplication1
             }
             return true;
         }
-                static int ObtenerDañoMaximo(int[] AcumulatedDamage, int CantidadJugadores)
+        static int ObtenerDañoMaximo(int[] AcumulatedDamage, int CantidadJugadores)
         {
             int MaxDaño = AcumulatedDamage[0];
             for (int i = 1; i < CantidadJugadores; i++)
@@ -359,7 +359,6 @@ namespace ConsoleApplication1
             }
             return MaxDaño;
         }
-
         static void MostrarMVP(string[] NombresGladiadores, int[] AcumulatedDamage, int CantidadJugadores)
         {
             int MaxDaño = ObtenerDañoMaximo(AcumulatedDamage, CantidadJugadores);
@@ -398,7 +397,6 @@ namespace ConsoleApplication1
                     }
                 }
             }
-
             Console.WriteLine();
             Console.WriteLine("========== FIN DEL TORNEO ==========");
 
@@ -435,7 +433,5 @@ namespace ConsoleApplication1
 
             Console.WriteLine("La partida terminó en " + TurnosTotales + " turnos.");
         }
-    }
-}
     }
 }
