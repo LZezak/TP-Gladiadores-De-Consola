@@ -10,7 +10,6 @@ namespace ConsoleApplication1
     {
         static void Main(string[] args)
         {
-
             const int PuntosTotales = 40;
             const int VidaMin = 10;
             const int VidaMaxCons = 25;
@@ -19,11 +18,10 @@ namespace ConsoleApplication1
             const int DefensaMin = 1;
             const int DefensaMax = 10;
             const int MaxRecuperaciones = 2;
+            const int PuntosCuracion = 5;
 
-            int Modalidad = 0;
-            int CantJugadores = 0;
-            Modalidad = ElegirModalidad(Modalidad);
-            CantJugadores = Modalidad * 2;
+            int Modalidad = ElegirModalidad();
+            int CantJugadores = Modalidad * 2;
 
             int[] Vida = new int[CantJugadores];
             int[] CantidadVidaMaxJugadores = new int[CantJugadores];
@@ -31,71 +29,35 @@ namespace ConsoleApplication1
             int[] Defensa = new int[CantJugadores];
             int[] DañoAcumulado = new int[CantJugadores];
             int[] RecuperacionesUsadas = new int[CantJugadores];
-            string[] NombresGladiadores = new string[CantJugadores]; 
-            string [] MVP = new string[CantJugadores];
-            int Turno = 1;
+            string[] EquiposNombres = new string[2];
+            string[] NombresGladiadores = new string[CantJugadores];
 
-            string Equipo1 = AsignarNombreEquipo(1);
-            string Equipo2 = AsignarNombreEquipo(2);
-            AsignarNombreGladiador(NombresGladiadores, CantJugadores, Equipo1, Equipo2);
-            Console.WriteLine(" ");
-            Console.WriteLine("Tienes 40 puntos por gladiador para repartir entre los 3 atributos de cada gladiador (vida, ataque y defensa)");
-            AsignarSalud(Vida, CantJugadores, VidaMin, VidaMaxCons, Equipo1, Equipo2, NombresGladiadores);
-            AsignarAtaque(Ataque, CantJugadores, AtaqueMin, AtaqueMax, Equipo1, Equipo2, NombresGladiadores);
-            AsignarDefensa(Defensa, CantJugadores, DefensaMin, DefensaMax, Equipo1, Equipo2, NombresGladiadores);
-            for (int i = 0; i != CantJugadores; i++)
+            AsignarNombreEquipo(EquiposNombres);
+            InicializarEquipos(Modalidad, NombresGladiadores, Vida, Ataque, Defensa, EquiposNombres, PuntosTotales, VidaMaxCons, VidaMin, AtaqueMax, AtaqueMin, DefensaMax, DefensaMin);
+
+            for (int i = 0; i < CantJugadores; i++)
             {
-                int SumaAtributos = Vida[i] + Ataque[i] + Defensa[i];
-                string Jugador;
-                if (SumaAtributos != PuntosTotales)
+                CantidadVidaMaxJugadores[i] = Vida[i];
+            }
+
+            bool jugarDeNuevo;
+            do
+            {
+                int turnosJugados = JugarCombate(Modalidad, CantJugadores, EquiposNombres, NombresGladiadores, Vida, CantidadVidaMaxJugadores, Ataque, Defensa, DañoAcumulado, RecuperacionesUsadas, MaxRecuperaciones, PuntosCuracion);
+
+                MostrarReporteFinal(Modalidad, CantJugadores, EquiposNombres, NombresGladiadores, Vida, CantidadVidaMaxJugadores, Ataque, Defensa, DañoAcumulado, turnosJugados);
+
+                jugarDeNuevo = PreguntarRevancha();
+
+                if (jugarDeNuevo)
                 {
-                    if ((i + 1) <= (CantJugadores / 2))
-                    {
-                        Jugador = Equipo1;
-                    }
-                    else
-                    {
-                        Jugador = Equipo2;
-                    }
-                    int GladiadorNum = (i % (CantJugadores / 2)) + 1;
-                    Console.WriteLine(" ");
-                    Console.WriteLine("Distribución de atributos del gladiador ¨" + NombresGladiadores[i] + "¨ de " + Jugador + " invalida");
-                    if (SumaAtributos > PuntosTotales)
-                    {
-                        Console.WriteLine("Se pasa por " + (SumaAtributos - PuntosTotales) + " puntos");
-                    }
-                    if (SumaAtributos < PuntosTotales)
-                    {
-                        Console.WriteLine("Le faltan " + (PuntosTotales - SumaAtributos) + " puntos");
-                    }
-                    Console.WriteLine(" ");
-                    Vida[i] = AsignarSaludOtraVez(Vida[i], i, NombresGladiadores, VidaMaxCons, VidaMin);
-                    Ataque[i] = AsignarAtaqueOtraVez(Ataque[i], i, NombresGladiadores, AtaqueMax, AtaqueMin);
-                    Defensa[i] = AsignarDefensaOtraVez(Defensa[i], i, NombresGladiadores, DefensaMax, DefensaMin);
-                    i--;
+                    ReiniciarParaRevancha(Vida, CantidadVidaMaxJugadores, DañoAcumulado, RecuperacionesUsadas, CantJugadores);
                 }
-            }
-            CantidadVidaMaxJugadores = Vida;
-            EstadoDelTurno(Modalidad, NombresGladiadores, Vida, Equipo1, Equipo2, Turno);
-     
+
+            } while (jugarDeNuevo);
         }
 
-        static void EstadoDelTurno(int Modalidad, string[] NombresGladiadores, int[] Vida, string Equipo1, string Equipo2, int turno)
-        {
-            Console.WriteLine("----- [Comienzo del Turno " + turno + "] -----");
-            Console.WriteLine("--- " + Equipo1 + " ---");
-            for (int i = 0; i < Modalidad; i++)
-            {
-                Console.WriteLine(NombresGladiadores[i] + ": " + Vida[i] + " HP");
-            }
-            Console.WriteLine("--- " + Equipo2 + " ---");
-            for (int i = 0; i < Modalidad; i++)
-            {
-                Console.WriteLine(NombresGladiadores[i] + ": " + Vida[i] + " HP");
-            }
-        }
-        
-        static int ElegirModalidad(int modalidad)
+        static int ElegirModalidad()
         {
             Console.WriteLine("================ JUEGO ================");
             Console.WriteLine();
@@ -114,240 +76,239 @@ namespace ConsoleApplication1
                 Console.WriteLine();
             }
         }
-        static string AsignarNombreEquipo(int Num)
+
+        static void AsignarNombreEquipo(string[] equipos)
         {
-            Console.WriteLine(" ");
-            Console.Write("Elija el nombre de su equipo jugador " + Num + ": ");
-            return Console.ReadLine();
-        }
-        static void AsignarNombreGladiador(string[] Nombres, int CantPlayer, string Team1, string Team2)
-        {
-            Console.WriteLine(" ");
-            for (int i = 0; i < CantPlayer; i++)
+            for (int i = 0; i < equipos.Length; i++)
             {
-                string EquipoActual;
-                if (i < CantPlayer / 2)
+                Console.WriteLine("");
+                bool esValido;
+                do
                 {
-                    EquipoActual = Team1;
-                }
-                else
-                {
-                    EquipoActual = Team2;
-                }
-                int GladiadorNum = (i % (CantPlayer / 2)) + 1;
-
-                bool NombreValido = false;
-
-                while (!NombreValido)
-                {
-                    Console.Write("Ingrese el nombre del gladiador " + GladiadorNum + " de " + EquipoActual + ": ");
-                    string NombreIngresado = Console.ReadLine();
-                    bool SoloEspacios = true;
-                    for (int k = 0; k < NombreIngresado.Length; k++)
+                    esValido = true;
+                    Console.Write("Elija el nombre de su equipo jugador " + (i + 1) + ": ");
+                    equipos[i] = Console.ReadLine();
+                    bool esNulo = EsNulo(equipos[i]);
+                    if (esNulo)
                     {
-                        if (NombreIngresado[k] != ' ')
-                        {
-                            SoloEspacios = false;
-                        }
-                    }
-
-                    if (NombreIngresado == "" || SoloEspacios)
-                    {
-                        Console.WriteLine("El nombre no puede quedar vacío. Intentá de nuevo.");
+                        esValido = false;
+                        Console.WriteLine("Ingresaste un valor nulo. Intentalo nuevamente");
                     }
                     else
                     {
-                        bool YaExiste = false;
-                        for (int j = 0; j < i && !YaExiste; j++)
+                        for (int j = 0; j < i; j++)
                         {
-                            if (Nombres[j] == NombreIngresado)
+                            if (equipos[i].ToLower() == equipos[j].ToLower())
                             {
-                                YaExiste = true;
+                                esValido = false;
+                                Console.WriteLine("Ingrese un nombre que no este en uso");
                             }
                         }
+                    }
+                } while (esValido == false);
+            }
+        }
 
-                        if (YaExiste)
+        static void InicializarEquipos(int modalidad, string[] Nombre, int[] Vida, int[] Ataque, int[] Defensa, string[] NombreEquipos, int PuntosTotales, int VidaMax, int VidaMin, int AtaqueMax, int AtaqueMin, int DefensaMax, int DefensaMin)
+        {
+            for (int eq = 0; eq < 2; eq++)
+            {
+                Console.WriteLine("");
+                Console.WriteLine(" --- EQUIPO '" + NombreEquipos[eq] + "' ---");
+                Console.WriteLine("Tienes " + PuntosTotales + " puntos por gladiador para repartir entre los 3 atributos de cada gladiador (vida, ataque y defensa)");
+
+                int desplazamiento = eq * modalidad;
+
+                for (int i = 0; i < modalidad; i++)
+                {
+                    bool GladiadorValido;
+                    Console.WriteLine("GLADIADOR " + (i + 1));
+                    string nombre = AsignarNombre(i + desplazamiento, Nombre);
+                    do
+                    {
+                        int vida = PedirAtributoEnRango("Salud (min. " + VidaMin + " - max. " + VidaMax + "): ", VidaMin, VidaMax);
+                        int ataque = PedirAtributoEnRango("Ataque (min. " + AtaqueMin + " - max. " + AtaqueMax + "): ", AtaqueMin, AtaqueMax);
+                        int defensa = PedirAtributoEnRango("Defensa (min. " + DefensaMin + " - max. " + DefensaMax + "): ", DefensaMin, DefensaMax);
+
+                        Vida[i + desplazamiento] = vida;
+                        Ataque[i + desplazamiento] = ataque;
+                        Defensa[i + desplazamiento] = defensa;
+
+                        GladiadorValido = ComprobarValores(vida, ataque, defensa, nombre, PuntosTotales);
+                        Console.WriteLine("");
+
+                    } while (GladiadorValido == false);
+                }
+            }
+        }
+
+        static string AsignarNombre(int Posicion, string[] Nombres)
+        {
+            bool NombreEsValido;
+            string Nombre;
+            do
+            {
+                NombreEsValido = true;
+                Console.Write("Nombre: ");
+                Nombre = Console.ReadLine();
+                bool esNulo = EsNulo(Nombre);
+                if (esNulo)
+                {
+                    NombreEsValido = false;
+                    Console.WriteLine("Ingresaste un valor nulo. Intentalo nuevamente");
+                }
+                else
+                {
+                    for (int i = 0; i < Posicion; i++)
+                    {
+                        if (Nombre.ToLower() == Nombres[i].ToLower())
                         {
-                            Console.WriteLine("Ese nombre ya fue elegido por otro gladiador. Elegí otro.");
-                        }
-                        else
-                        {
-                            Nombres[i] = NombreIngresado;
-                            NombreValido = true;
+                            NombreEsValido = false;
+                            Console.WriteLine("Ingrese un nombre que no este repetido");
                         }
                     }
                 }
-            }
-        }
-        static void AsignarSalud(int[] Health, int CantPlayer, int MinHealth, int MaxHealth, string Team1Healt, string Team2Healt, string[] GladiNameHealt)
-        {
-            Console.WriteLine(" ");
-            Console.WriteLine(Team1Healt);
-            for (int i = 0; i <= ((CantPlayer / 2) - 1); i++)
-            {
-                Console.Write("Salud gladiador ¨" + GladiNameHealt[i] + "¨ (min. 10 - max. 25): ");
-                Health[i] = int.Parse(Console.ReadLine());
-                if (Health[i] < MinHealth || Health[i] > MaxHealth)
-                {
-                    Console.WriteLine("Valor invalido. Intente de nuevo");
-                    i--;
-                }
-            }
-            Console.WriteLine(" ");
-            Console.WriteLine(Team2Healt);
-            for (int i = (CantPlayer / 2); i <= (CantPlayer - 1); i++)
-            {
-                Console.Write("Salud gladiador ¨" + GladiNameHealt[i] + "¨ (min. 10 - max. 25): ");
-                Health[i] = int.Parse(Console.ReadLine());
-                if (Health[i] < MinHealth || Health[i] > MaxHealth)
-                {
-                    Console.WriteLine("Valor invalido. Intente de nuevo");
-                    i--;
-                }
-            }
-        }
-        static void AsignarAtaque(int[] Atack, int CantPlayer, int MinAtack, int MaxAtack, string Team1Atack, string Team2Atack, string[] GladiNameAtack)
-        {
-            Console.WriteLine(" ");
-            Console.WriteLine(Team1Atack);
-            for (int i = 0; i <= ((CantPlayer / 2) - 1); i++)
-            {
-                Console.Write("Ataque gladiador ¨" + GladiNameAtack[i] + "¨ (min. 5 - max. 20): ");
-                Atack[i] = int.Parse(Console.ReadLine());
-                if (Atack[i] < MinAtack || Atack[i] > MaxAtack)
-                {
-                    Console.WriteLine("Valor invalido. Intente de nuevo");
-                    i--;
-                }
-            }
-            Console.WriteLine(" ");
-            Console.WriteLine(Team2Atack);
-            for (int i = (CantPlayer / 2); i <= (CantPlayer - 1); i++)
-            {
-                Console.Write("Ataque gladiador ¨" + GladiNameAtack[i] + "¨ (min. 5 - max. 20): ");
-                Atack[i] = int.Parse(Console.ReadLine());
-                if (Atack[i] < MinAtack || Atack[i] > MaxAtack)
-                {
-                    Console.WriteLine("Valor invalido. Intente de nuevo");
-                    i--;
-                }
-            }
-        }
-        static void AsignarDefensa(int[] Defense, int CantPlayer, int MinDefense, int MaxDefense, string Team1Defense, string Team2Defense, string[] GladiNameDefense)
-        {
-            Console.WriteLine(" ");
-            Console.WriteLine(Team1Defense);
-            for (int i = 0; i <= ((CantPlayer / 2) - 1); i++)
-            {
-                Console.Write("Defensa gladiador ¨" + GladiNameDefense[i] + "¨ (min. 1 - max. 10): ");
-                Defense[i] = int.Parse(Console.ReadLine());
-                if (Defense[i] < MinDefense || Defense[i] > MaxDefense)
-                {
-                    Console.WriteLine("Valor invalido. Intente de nuevo");
-                    i--;
-                }
-            }
-            Console.WriteLine(" ");
-            Console.WriteLine(Team2Defense);
-            for (int i = (CantPlayer / 2); i <= (CantPlayer - 1); i++)
-            {
-                Console.Write("Defensa gladiador ¨" + GladiNameDefense[i] + "¨ (min. 1 - max. 10): ");
-                Defense[i] = int.Parse(Console.ReadLine());
-                if (Defense[i] < MinDefense || Defense[i] > MaxDefense)
-                {
-                    Console.WriteLine("Valor invalido. Intente de nuevo");
-                    i--;
-                }
-            }
-        }
-          static int SeleccionarMovimiento(string nombreGladiador, int recuperacionesUsadas, int MaxRecuperaciones )
-        {
-            Console.WriteLine("================ ELIJA SU MOVIMIENTO ================");
-            Console.WriteLine();
-            Console.WriteLine("que desea hacer ATACAR(1) o CURARSE(2) ");
 
-            while (true)
-            {
-                Console.Write("Elegí una opción (1 o 2): ");
-                string texto = Console.ReadLine();
+            } while (NombreEsValido == false);
 
-                if (texto == "1")
+            Nombres[Posicion] = Nombre;
+
+            return Nombre;
+        }
+
+        static int PedirAtributoEnRango(string mensaje, int min, int max)
+        {
+            string entrada;
+            int valorInt = 0;
+            bool esValido;
+
+            do
+            {
+                esValido = false;
+                Console.Write(mensaje);
+                entrada = Console.ReadLine();
+                if (EsValorNumerico(entrada))
                 {
-                    Console.WriteLine(nombreGladiador + " se prepara para atacar.");
-                    return 1;
-                }
-                else if (texto == "2")
-                {
-                    if (recuperacionesUsadas < MaxRecuperaciones)
+                    valorInt = int.Parse(entrada);
+                    if (valorInt < min || valorInt > max)
                     {
-                        Console.WriteLine(nombreGladiador + " decide recuperar salud.");
-                        return 2;
+                        Console.WriteLine("Valor invalido. Intente de nuevo");
                     }
                     else
                     {
-                        Console.WriteLine("Ya no te quedan recuperaciones disponibles. Debés atacar.");
-                        Console.WriteLine(" ");
+                        esValido = true;
                     }
                 }
                 else
                 {
-                    Console.WriteLine("Opción inválida. Solo se acepta 1 o 2.");
-                    Console.WriteLine(" ");
+                    Console.WriteLine("Ingrese un valor numerico");
+                }
+            } while (esValido == false);
+
+            return valorInt;
+        }
+
+        static bool ComprobarValores(int Salud, int Ataque, int Defensa, string Nombre, int PuntosTotales)
+        {
+            int CantTotalAtributos = Salud + Ataque + Defensa;
+            bool EsValido = CantTotalAtributos == PuntosTotales;
+            if (EsValido == false)
+            {
+                Console.WriteLine("Distribución de atributos del gladiador '" + Nombre + "' invalida");
+                if (CantTotalAtributos > PuntosTotales)
+                {
+                    Console.WriteLine("Se pasa por " + (CantTotalAtributos - PuntosTotales) + ". Intentelo nuevamente");
+                }
+                else
+                {
+                    Console.WriteLine("Le faltan " + (PuntosTotales - CantTotalAtributos) + ". Intentelo nuevamente");
+                }
+            }
+            return EsValido;
+        }
+
+        static void EstadisticasTurno(int turno, string[] equipos, string[] nombres, int[] vidas, int[] vidaMaxima)
+        {
+            Console.WriteLine("");
+            Console.WriteLine("================ TURNO " + turno + " ================");
+
+            const int espacio = 10;
+
+            int modalidad = nombres.Length / 2;
+            int inicio = 0;
+            int fin = modalidad;
+            for (int i = 0; i < equipos.Length; i++)
+            {
+                Console.WriteLine("");
+                Console.WriteLine("[" + equipos[i] + "]");
+                for (int j = inicio; j < fin; j++)
+                {
+                    string text = "";
+                    Console.Write("  " + (j - inicio + 1) + ". " + nombres[j]);
+                    CrearEspaciado(espacio - nombres[j].Length);
+                    if (vidas[j] <= 0)
+                    {
+                        text = "   (fuera de combate)";
+                    }
+                    Console.WriteLine("Vida " + vidas[j] + "/" + vidaMaxima[j] + text);
                 }
 
+                inicio += modalidad;
+                fin += modalidad;
             }
         }
-        static int AsignarSaludOtraVez(int Health, int i, string[] GladiNameHealtAgain, int MaxHealthAgain, int MinHealthAgain)
+
+        static void CrearEspaciado(int Cantidad)
         {
-            bool Correcto;
-            do
+            if (Cantidad < 1)
             {
-                Correcto = true;
-                Console.Write("Salud gladiador ¨" + GladiNameHealtAgain[i] + "¨ (min. 10 - max. 25): ");
-                Health = int.Parse(Console.ReadLine());
-                if (Health < MinHealthAgain || Health > MaxHealthAgain)
+                Cantidad = 1;
+            }
+            for (int i = 0; i <= Cantidad; i++)
+            {
+                Console.Write(" ");
+            }
+        }
+
+        static bool EsNulo(string str)
+        {
+            for (int i = 0; i < str.Length; i++)
+            {
+                if (str[i] != ' ')
                 {
-                    Console.WriteLine("Valor invalido. Intente de nuevo");
-                    Correcto = false;
+                    return false;
                 }
             }
-            while (Correcto == false);
-            return Health;
+            return true;
         }
-        static int AsignarAtaqueOtraVez(int Atack, int i, string[] GladiNameAtackAgain, int MaxAtackAgain, int MinAtackAgain)
+
+        static bool EsValorNumerico(string valor)
         {
-            bool Correcto;
-            do
+            if (valor == "")
             {
-                Correcto = true;
-                Console.Write("Ataque gladiador ¨" + GladiNameAtackAgain[i] + "¨ (min. 5 - max. 20): ");
-                Atack = int.Parse(Console.ReadLine());
-                if (Atack < MinAtackAgain || Atack > MaxAtackAgain)
+                return false;
+            }
+
+            string Numeros = "0123456789";
+            for (int i = 0; i < valor.Length; i++)
+            {
+                bool EsNumerico = false;
+                for (int j = 0; j < Numeros.Length; j++)
                 {
-                    Console.WriteLine("Valor invalido. Intente de nuevo");
-                    Correcto = false;
+                    if (valor[i] == Numeros[j])
+                    {
+                        EsNumerico = true;
+                    }
+                }
+
+                if (EsNumerico == false)
+                {
+                    return false;
                 }
             }
-            while (Correcto == false);
-            return Atack;
+            return true;
         }
-        static int AsignarDefensaOtraVez(int Defense, int i, string[] GladiNameDefenseAgain, int MaxDefenseAgain, int MinDefenseAgain)
-        {
-            bool Correcto;
-            do
-            {
-                Correcto = true;
-                Console.Write("Defensa Gladiador ¨" + GladiNameDefenseAgain[i] + "¨ (min. 1 - max. 10): ");
-                Defense = int.Parse(Console.ReadLine());
-                if (Defense < MinDefenseAgain || Defense > MaxDefenseAgain)
-                {
-                    Console.WriteLine("Valor invalido. Intente de nuevo");
-                    Correcto = false;
-                }
-            }
-            while (Correcto == false);
-            return Defense;
-        }
+
         static bool Recuperarse(int[] Vida, int[] VidaMaxima, int[] RecuperacionesUsadas, string[] NombresGladiadores, int indice, int MaxRecuperaciones, int PuntosCuracion)
         {
             if (RecuperacionesUsadas[indice] >= MaxRecuperaciones)
@@ -373,6 +334,7 @@ namespace ConsoleApplication1
             Console.WriteLine(NombresGladiadores[indice] + " se recupera y queda con " + Vida[indice] + "/" + VidaMaxima[indice] + " de vida.");
             return true;
         }
+
         static bool EquipoDerrotado(int[] VidaGladiadores, int inicio, int fin)
         {
             for (int i = inicio; i < fin; i++)
@@ -384,26 +346,28 @@ namespace ConsoleApplication1
             }
             return true;
         }
-        static int ObtenerDañoMaximo(int[] AcumulatedDamage, int CantidadJugadores)
+
+        static int ObtenerDanioMaximo(int[] DanioAcumulado, int CantidadJugadores)
         {
-            int MaxDaño = AcumulatedDamage[0];
+            int MaxDanio = DanioAcumulado[0];
             for (int i = 1; i < CantidadJugadores; i++)
             {
-                if (AcumulatedDamage[i] > MaxDaño)
+                if (DanioAcumulado[i] > MaxDanio)
                 {
-                    MaxDaño = AcumulatedDamage[i];
+                    MaxDanio = DanioAcumulado[i];
                 }
             }
-            return MaxDaño;
+            return MaxDanio;
         }
-        static void MostrarMVP(string[] NombresGladiadores, int[] AcumulatedDamage, int CantidadJugadores)
+
+        static void MostrarMVP(string[] NombresGladiadores, int[] DanioAcumulado, int CantidadJugadores)
         {
-            int MaxDaño = ObtenerDañoMaximo(AcumulatedDamage, CantidadJugadores);
-            Console.Write("MVP del torneo (" + MaxDaño + " de daño causado): ");
+            int MaxDanio = ObtenerDanioMaximo(DanioAcumulado, CantidadJugadores);
+            Console.Write("MVP del torneo (" + MaxDanio + " de daño causado): ");
             bool EsElPrimero = true;
             for (int i = 0; i < CantidadJugadores; i++)
             {
-                if (AcumulatedDamage[i] == MaxDaño)
+                if (DanioAcumulado[i] == MaxDanio)
                 {
                     if (EsElPrimero == false)
                     {
@@ -415,60 +379,289 @@ namespace ConsoleApplication1
             }
             Console.WriteLine();
         }
-        static void AnunciarGanador(string Equipo1, string Equipo2, string[] NombresGladiadores, int[] Vida, int CantJugadores, int TurnosTotales)
-        {
-            int VivosEquipo1 = 0;
-            int VivosEquipo2 = 0;
 
-            for (int i = 0; i < CantJugadores; i++)
-            {
-                if (Vida[i] > 0)
-                {
-                    if (i < CantJugadores / 2)
-                    {
-                        VivosEquipo1++;
-                    }
-                    else
-                    {
-                        VivosEquipo2++;
-                    }
-                }
-            }
+        static void AnunciarGanador(string Equipo1, string Equipo2, int[] Vida, int CantJugadores, int TurnosTotales)
+        {
             Console.WriteLine();
             Console.WriteLine("========== FIN DEL TORNEO ==========");
 
-            if (VivosEquipo1 > 0)
+            if (EquipoDerrotado(Vida, 0, CantJugadores / 2) == false)
             {
                 Console.WriteLine("Equipo ganador: " + Equipo1);
                 Console.WriteLine("Ganador: Jugador 1");
-
-                Console.WriteLine("Gladiadores que quedaron en pie:");
-
-                for (int i = 0; i < CantJugadores / 2; i++)
-                {
-                    if (Vida[i] > 0)
-                    {
-                        Console.WriteLine("- " + NombresGladiadores[i]);
-                    }
-                }
             }
             else
             {
                 Console.WriteLine("Equipo ganador: " + Equipo2);
                 Console.WriteLine("Ganador: Jugador 2");
-
-                Console.WriteLine("Gladiadores que quedaron en pie:");
-
-                for (int i = CantJugadores / 2; i < CantJugadores; i++)
-                {
-                    if (Vida[i] > 0)
-                    {
-                        Console.WriteLine("- " + NombresGladiadores[i]);
-                    }
-                }
             }
 
             Console.WriteLine("La partida terminó en " + TurnosTotales + " turnos.");
+        }
+
+        static int SeleccionarMovimiento()
+        {
+            Console.WriteLine();
+            Console.WriteLine("Acción: 1) Atacar  2) Recuperarse");
+
+            while (true)
+            {
+                Console.Write("Elegí una opción (1 o 2): ");
+                string texto = Console.ReadLine();
+
+                if (texto == "1" || texto == "2")
+                {
+                    return int.Parse(texto);
+                }
+
+                Console.WriteLine("Opción inválida. Solo se acepta 1 o 2.");
+            }
+        }
+
+        static void Atacar(int Modalidad, int inicioPropio, int inicioRival, string[] NombresGladiadores, int[] Vida, int[] Ataque, int[] Defensa, int[] DañoAcumulado)
+        {
+            int idxAtacante = PedirGladiadorEnPie("Tu gladiador que ataca (número): ", Modalidad, inicioPropio, NombresGladiadores, Vida);
+            int idxDefensor = PedirGladiadorEnPie("Gladiador rival que recibe (número): ", Modalidad, inicioRival, NombresGladiadores, Vida);
+
+            int danioCalculado = Ataque[idxAtacante] - Defensa[idxDefensor];
+            if (danioCalculado < 1)
+            {
+                danioCalculado = 1;
+            }
+
+            int danioReal = danioCalculado;
+            if (danioReal > Vida[idxDefensor])
+            {
+                danioReal = Vida[idxDefensor];
+            }
+
+            Vida[idxDefensor] -= danioReal;
+            DañoAcumulado[idxAtacante] += danioReal;
+
+            Console.WriteLine(NombresGladiadores[idxAtacante] + " golpea a " + NombresGladiadores[idxDefensor] + " y le quita " + danioReal + " de vida.");
+
+            if (Vida[idxDefensor] == 0)
+            {
+                Console.WriteLine(NombresGladiadores[idxDefensor] + " queda fuera de combate.");
+            }
+        }
+
+        static int PedirGladiadorEnPie(string mensaje, int Modalidad, int inicioEquipo, string[] NombresGladiadores, int[] Vida)
+        {
+            while (true)
+            {
+                Console.Write(mensaje);
+                string entrada = Console.ReadLine();
+
+                if (EsValorNumerico(entrada) == false)
+                {
+                    Console.WriteLine("Ingrese un valor numérico.");
+                }
+                else
+                {
+                    int eleccion = int.Parse(entrada);
+                    if (eleccion < 1 || eleccion > Modalidad)
+                    {
+                        Console.WriteLine("Número inválido. Debe ser entre 1 y " + Modalidad + ".");
+                    }
+                    else
+                    {
+                        int indiceReal = inicioEquipo + (eleccion - 1);
+                        if (Vida[indiceReal] <= 0)
+                        {
+                            Console.WriteLine(NombresGladiadores[indiceReal] + " está fuera de combate. Elegí otro.");
+                        }
+                        else
+                        {
+                            return indiceReal;
+                        }
+                    }
+                }
+            }
+        }
+
+        static void MostrarPromedioGanador(string nombreEquipoGanador, int[] Vida, int inicio, int fin, int Modalidad)
+        {
+            int sumaVida = 0;
+            int sobrevivientes = 0;
+
+            for (int i = inicio; i < fin; i++)
+            {
+                sumaVida += Vida[i];
+                if (Vida[i] > 0)
+                {
+                    sobrevivientes++;
+                }
+            }
+
+            double promedio = (double)sumaVida / Modalidad;
+            Console.WriteLine("Promedio de vida restante de " + nombreEquipoGanador + ": " + promedio.ToString("F2") + " (sobrevivientes: " + sobrevivientes + " de " + Modalidad + ")");
+        }
+
+        static void MostrarTablaFinal(string Equipo1, string Equipo2, string[] NombresGladiadores, int[] Vida, int[] VidaMaxima, int[] Ataque, int[] Defensa, int[] DañoAcumulado, int CantJugadores)
+        {
+            const int anchoEquipo = 16;
+            const int anchoGladiador = 16;
+            const int anchoVida = 10;
+            const int anchoStat = 6;
+            const int anchoDanio = 8;
+
+            Console.WriteLine();
+            Console.Write("EQUIPO");
+            CrearEspaciado(anchoEquipo - "EQUIPO".Length);
+            Console.Write("GLADIADOR");
+            CrearEspaciado(anchoGladiador - "GLADIADOR".Length);
+            Console.Write("VIDA");
+            CrearEspaciado(anchoVida - "VIDA".Length);
+            Console.Write("ATQ");
+            CrearEspaciado(anchoStat - "ATQ".Length);
+            Console.Write("DEF");
+            CrearEspaciado(anchoStat - "DEF".Length);
+            Console.Write("DAÑO");
+            CrearEspaciado(anchoDanio - "DAÑO".Length);
+            Console.WriteLine("ESTADO");
+
+            for (int i = 0; i < CantJugadores; i++)
+            {
+                string equipo;
+                if (i < CantJugadores / 2)
+                {
+                    equipo = Equipo1;
+                }
+                else
+                {
+                    equipo = Equipo2;
+                }
+
+                string estado;
+                if (Vida[i] > 0)
+                {
+                    estado = "En pie";
+                }
+                else
+                {
+                    estado = "Fuera de combate";
+                }
+
+                string textoVida = Vida[i] + "/" + VidaMaxima[i];
+                string textoAtq = Ataque[i].ToString();
+                string textoDef = Defensa[i].ToString();
+                string textoDanio = DañoAcumulado[i].ToString();
+
+                Console.Write(equipo);
+                CrearEspaciado(anchoEquipo - equipo.Length);
+                Console.Write(NombresGladiadores[i]);
+                CrearEspaciado(anchoGladiador - NombresGladiadores[i].Length);
+                Console.Write(textoVida);
+                CrearEspaciado(anchoVida - textoVida.Length);
+                Console.Write(textoAtq);
+                CrearEspaciado(anchoStat - textoAtq.Length);
+                Console.Write(textoDef);
+                CrearEspaciado(anchoStat - textoDef.Length);
+                Console.Write(textoDanio);
+                CrearEspaciado(anchoDanio - textoDanio.Length);
+                Console.WriteLine(estado);
+            }
+        }
+
+        static int JugarCombate(int Modalidad, int CantJugadores, string[] EquiposNombres, string[] NombresGladiadores, int[] Vida, int[] VidaMaxima, int[] Ataque, int[] Defensa, int[] DañoAcumulado, int[] RecuperacionesUsadas, int MaxRecuperaciones, int PuntosCuracion)
+        {
+            int Turno = 1;
+            int jugadorActivo = 0;
+            bool combateTerminado = false;
+
+            while (combateTerminado == false)
+            {
+                EstadisticasTurno(Turno, EquiposNombres, NombresGladiadores, Vida, VidaMaxima);
+
+                int inicioPropio = jugadorActivo * Modalidad;
+                int inicioRival = (1 - jugadorActivo) * Modalidad;
+
+                Console.WriteLine();
+                Console.WriteLine("Juega " + EquiposNombres[jugadorActivo] + " (Jugador " + (jugadorActivo + 1) + ")");
+
+                bool accionCompletada = false;
+                while (accionCompletada == false)
+                {
+                    int accion = SeleccionarMovimiento();
+
+                    if (accion == 1)
+                    {
+                        Atacar(Modalidad, inicioPropio, inicioRival, NombresGladiadores, Vida, Ataque, Defensa, DañoAcumulado);
+                        accionCompletada = true;
+                    }
+                    else
+                    {
+                        int idxGladiador = PedirGladiadorEnPie("Gladiador que se recupera (número): ", Modalidad, inicioPropio, NombresGladiadores, Vida);
+                        accionCompletada = Recuperarse(Vida, VidaMaxima, RecuperacionesUsadas, NombresGladiadores, idxGladiador, MaxRecuperaciones, PuntosCuracion);
+                    }
+                }
+
+                bool perdioEquipo1 = EquipoDerrotado(Vida, 0, Modalidad);
+                bool perdioEquipo2 = EquipoDerrotado(Vida, Modalidad, CantJugadores);
+
+                if (perdioEquipo1 || perdioEquipo2)
+                {
+                    combateTerminado = true;
+                }
+                else
+                {
+                    Turno++;
+                    jugadorActivo = 1 - jugadorActivo;
+                }
+            }
+
+            return Turno;
+        }
+
+        static void MostrarReporteFinal(int Modalidad, int CantJugadores, string[] EquiposNombres, string[] NombresGladiadores, int[] Vida, int[] VidaMaxima, int[] Ataque, int[] Defensa, int[] DañoAcumulado, int TurnosTotales)
+        {
+            AnunciarGanador(EquiposNombres[0], EquiposNombres[1], Vida, CantJugadores, TurnosTotales);
+            MostrarMVP(NombresGladiadores, DañoAcumulado, CantJugadores);
+
+            if (EquipoDerrotado(Vida, 0, Modalidad) == false)
+            {
+                MostrarPromedioGanador(EquiposNombres[0], Vida, 0, Modalidad, Modalidad);
+            }
+            else
+            {
+                MostrarPromedioGanador(EquiposNombres[1], Vida, Modalidad, CantJugadores, Modalidad);
+            }
+
+            MostrarTablaFinal(EquiposNombres[0], EquiposNombres[1], NombresGladiadores, Vida, VidaMaxima, Ataque, Defensa, DañoAcumulado, CantJugadores);
+        }
+
+        static bool PreguntarRevancha()
+        {
+            Console.WriteLine();
+            while (true)
+            {
+                Console.Write("¿Quieren jugar una revancha con los mismos gladiadores? (S/N): ");
+                string respuesta = Console.ReadLine().ToLower();
+
+                if (respuesta == "s")
+                {
+                    return true;
+                }
+                if (respuesta == "n")
+                {
+                    return false;
+                }
+
+                Console.WriteLine("Opción inválida. Ingresá S para sí o N para no.");
+            }
+        }
+
+        static void ReiniciarParaRevancha(int[] Vida, int[] VidaMaxima, int[] DañoAcumulado, int[] RecuperacionesUsadas, int CantJugadores)
+        {
+            for (int i = 0; i < CantJugadores; i++)
+            {
+                Vida[i] = VidaMaxima[i];
+                DañoAcumulado[i] = 0;
+                RecuperacionesUsadas[i] = 0;
+            }
+            Console.WriteLine();
+            Console.WriteLine("¡Todos los gladiadores recuperaron su vida al máximo! Comienza la revancha.");
         }
     }
 }
