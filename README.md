@@ -37,3 +37,6 @@ juan subio su codigo para calcular el ataque
 17/11/2026
 Se trabajaron las funciones que faltaban hacer, restando por terminar solo el bucle de turnos, la tabla de ganadores, el selector de acción entre atacar y recuperarse.
 Además, Leo corrigió unos errores y emprolijo el codigo.
+
+19/11/2026
+Se implemento un código nuevo para asignar las estadisticas
