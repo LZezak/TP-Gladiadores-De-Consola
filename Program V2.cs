@@ -83,22 +83,26 @@ namespace ConsoleApplication1
             {
                 Console.WriteLine("");
                 bool esValido;
+                string nombreEquipo;
+                string nombreSinEspacios;
+                string nombreFormateado;
                 do
                 {
                     esValido = true;
                     Console.Write("Elija el nombre de su equipo jugador " + (i + 1) + ": ");
-                    equipos[i] = Console.ReadLine();
-                    bool esNulo = EsNulo(equipos[i]);
-                    if (esNulo)
+                    nombreEquipo = Console.ReadLine();
+                    nombreSinEspacios = QuitarEspacios(nombreEquipo);
+                    if (nombreSinEspacios == "")
                     {
                         esValido = false;
                         Console.WriteLine("Ingresaste un valor nulo. Intentalo nuevamente");
                     }
                     else
                     {
+                        nombreFormateado = FormatearNombre(nombreSinEspacios);
                         for (int j = 0; j < i; j++)
                         {
-                            if (equipos[i].ToLower() == equipos[j].ToLower())
+                            if (nombreFormateado == FormatearNombre(equipos[j]))
                             {
                                 esValido = false;
                                 Console.WriteLine("Ingrese un nombre que no este en uso");
@@ -106,6 +110,7 @@ namespace ConsoleApplication1
                         }
                     }
                 } while (esValido == false);
+                equipos[i] = nombreSinEspacios;
             }
         }
 
@@ -146,13 +151,16 @@ namespace ConsoleApplication1
         {
             bool NombreEsValido;
             string Nombre;
+            string NombreSinEspacios;
+            string NombreFormateado;
             do
             {
                 NombreEsValido = true;
                 Console.Write("Nombre: ");
                 Nombre = Console.ReadLine();
-                bool esNulo = EsNulo(Nombre);
-                if (esNulo)
+                NombreSinEspacios = QuitarEspacios(Nombre);
+                NombreFormateado = FormatearNombre(Nombre);
+                if (NombreSinEspacios == "")
                 {
                     NombreEsValido = false;
                     Console.WriteLine("Ingresaste un valor nulo. Intentalo nuevamente");
@@ -161,7 +169,7 @@ namespace ConsoleApplication1
                 {
                     for (int i = 0; i < Posicion; i++)
                     {
-                        if (Nombre.ToLower() == Nombres[i].ToLower())
+                        if (NombreFormateado == FormatearNombre(Nombres[i]))
                         {
                             NombreEsValido = false;
                             Console.WriteLine("Ingrese un nombre que no este repetido");
@@ -171,14 +179,15 @@ namespace ConsoleApplication1
 
             } while (NombreEsValido == false);
 
-            Nombres[Posicion] = Nombre;
+            Nombres[Posicion] = NombreSinEspacios;
 
-            return Nombre;
+            return NombreSinEspacios;
         }
 
         static int PedirAtributoEnRango(string mensaje, int min, int max)
         {
             string entrada;
+            string entradaSinEspacios;
             int valorInt = 0;
             bool esValido;
 
@@ -187,7 +196,8 @@ namespace ConsoleApplication1
                 esValido = false;
                 Console.Write(mensaje);
                 entrada = Console.ReadLine();
-                if (EsValorNumerico(entrada))
+                entradaSinEspacios = QuitarEspacios(entrada);
+                if (EsValorNumerico(entradaSinEspacios))
                 {
                     valorInt = int.Parse(entrada);
                     if (valorInt < min || valorInt > max)
@@ -270,21 +280,10 @@ namespace ConsoleApplication1
             }
         }
 
-        static bool EsNulo(string str)
-        {
-            for (int i = 0; i < str.Length; i++)
-            {
-                if (str[i] != ' ')
-                {
-                    return false;
-                }
-            }
-            return true;
-        }
 
         static bool EsValorNumerico(string valor)
         {
-            if (valor == "")
+            if (valor == "" || valor.Length > 9)
             {
                 return false;
             }
@@ -407,7 +406,7 @@ namespace ConsoleApplication1
             while (true)
             {
                 Console.Write("Elegí una opción (1 o 2): ");
-                string texto = Console.ReadLine();
+                string texto = QuitarEspacios(Console.ReadLine());
 
                 if (texto == "1" || texto == "2")
                 {
@@ -451,7 +450,7 @@ namespace ConsoleApplication1
             while (true)
             {
                 Console.Write(mensaje);
-                string entrada = Console.ReadLine();
+                string entrada = QuitarEspacios(Console.ReadLine());
 
                 if (EsValorNumerico(entrada) == false)
                 {
@@ -637,7 +636,7 @@ namespace ConsoleApplication1
             while (true)
             {
                 Console.Write("¿Quieren jugar una revancha con los mismos gladiadores? (S/N): ");
-                string respuesta = Console.ReadLine().ToLower();
+                string respuesta = FormatearNombre(QuitarEspacios(Console.ReadLine()));
 
                 if (respuesta == "s")
                 {
@@ -651,7 +650,7 @@ namespace ConsoleApplication1
                 Console.WriteLine("Opción inválida. Ingresá S para sí o N para no.");
             }
         }
-
+        
         static void ReiniciarParaRevancha(int[] Vida, int[] VidaMaxima, int[] DañoAcumulado, int[] RecuperacionesUsadas, int CantJugadores)
         {
             for (int i = 0; i < CantJugadores; i++)
@@ -663,5 +662,72 @@ namespace ConsoleApplication1
             Console.WriteLine();
             Console.WriteLine("¡Todos los gladiadores recuperaron su vida al máximo! Comienza la revancha.");
         }
+
+
+        static string FormatearNombre(string nombre)
+        {
+            string mayusculas = "ABCDEFGHIJKLMNÑOPQRSTUVWXYZÁÉÍÓÚÜ";
+            string minusculas = "abcdefghijklmnñopqrstuvwxyzáéíóúü";
+            string nombreFormateado = "";
+
+            for (int i = 0; i < nombre.Length; i++)
+            {
+                bool letraIdentificada = false;
+                for (int j = 0; j < mayusculas.Length && letraIdentificada == false; j++)
+                {
+                    if (nombre[i] == mayusculas[j] || nombre[i] == minusculas[j])
+                    {
+                        nombreFormateado += minusculas[j];
+                        letraIdentificada = true;
+                    }
+                }
+
+                if (letraIdentificada == false)
+                {
+                    nombreFormateado += nombre[i];
+                }
+            }
+
+            return nombreFormateado;
+        }
+
+
+        static string QuitarEspacios(string texto)
+        {
+            string textoSinEspAlComienzo = "";
+
+            for (int i = 0; i < texto.Length; i++)
+            {
+                if (texto[i] != ' ')
+                {
+                    for (int j = i; j < texto.Length; j++)
+                    {
+                        textoSinEspAlComienzo += texto[j];
+                    }
+                    break;
+                }
+            }
+
+            if (textoSinEspAlComienzo == "")
+            {
+                return "";
+            }
+
+            string textoSinEspacio = "";
+
+            for (int i = (textoSinEspAlComienzo.Length - 1); i >= 0; i--)
+            {
+                if (textoSinEspAlComienzo[i] != ' ')
+                {
+                    for (int j = 0; j <= i; j++)
+                    {
+                        textoSinEspacio += textoSinEspAlComienzo[j];
+                    }
+                    break;
+                }
+            }
+            return textoSinEspacio;
+        }
+
     }
 }
