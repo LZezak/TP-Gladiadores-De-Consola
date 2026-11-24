@@ -40,3 +40,6 @@ Además, Leo corrigió unos errores y emprolijo el codigo.
 
 19/11/2026
 Se implemento un código nuevo para asignar las estadisticas
+
+24/11/2016
+Yo, Leonardo Ivan Kazez, implemente unas correcciones y unifique con mas cosas de otro compañero desde mi casa
