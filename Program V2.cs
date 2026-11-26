@@ -66,7 +66,7 @@ namespace ConsoleApplication1
             {
                 string texto;
                 Console.Write("Elegí la modalidad (1, 2, 3 o 5): ");
-                texto = Console.ReadLine();
+                texto = QuitarEspacios(Console.ReadLine());
                 if (texto == "1" || texto == "2" || texto == "3" || texto == "5")
                 {
                     Console.WriteLine("Se ha elegido la modalidad " + texto + " contra " + texto);
@@ -159,7 +159,6 @@ namespace ConsoleApplication1
                 Console.Write("Nombre: ");
                 Nombre = Console.ReadLine();
                 NombreSinEspacios = QuitarEspacios(Nombre);
-                NombreFormateado = FormatearNombre(Nombre);
                 if (NombreSinEspacios == "")
                 {
                     NombreEsValido = false;
@@ -167,6 +166,7 @@ namespace ConsoleApplication1
                 }
                 else
                 {
+                    NombreFormateado = FormatearNombre(NombreSinEspacios);
                     for (int i = 0; i < Posicion; i++)
                     {
                         if (NombreFormateado == FormatearNombre(Nombres[i]))
@@ -199,7 +199,7 @@ namespace ConsoleApplication1
                 entradaSinEspacios = QuitarEspacios(entrada);
                 if (EsValorNumerico(entradaSinEspacios))
                 {
-                    valorInt = int.Parse(entrada);
+                    valorInt = int.Parse(entradaSinEspacios);
                     if (valorInt < min || valorInt > max)
                     {
                         Console.WriteLine("Valor invalido. Intente de nuevo");
@@ -650,7 +650,7 @@ namespace ConsoleApplication1
                 Console.WriteLine("Opción inválida. Ingresá S para sí o N para no.");
             }
         }
-        
+
         static void ReiniciarParaRevancha(int[] Vida, int[] VidaMaxima, int[] DañoAcumulado, int[] RecuperacionesUsadas, int CantJugadores)
         {
             for (int i = 0; i < CantJugadores; i++)
